@@ -1,7 +1,8 @@
 // productoDao.js
-import db from './db';
+import { getDBConnection } from './db';
 
-export const crearTablaProducto = () => {
+export const crearTablaProducto = async () => {
+  const db = await getDBConnection();
   db.transaction(tx => {
     tx.executeSql(
       `CREATE TABLE IF NOT EXISTS productos (
@@ -13,7 +14,8 @@ export const crearTablaProducto = () => {
   });
 };
 
-export const insertarProducto = (nombre, precio, callback) => {
+export const insertarProducto = async (nombre, precio, callback) => {
+  const db = await getDBConnection();
   db.transaction(tx => {
     tx.executeSql(
       'INSERT INTO productos (nombre, precio) VALUES (?, ?);',
@@ -27,7 +29,8 @@ export const insertarProducto = (nombre, precio, callback) => {
   });
 };
 
-export const obtenerProductos = callback => {
+export const obtenerProductos = async callback => {
+  const db = await getDBConnection();
   db.transaction(tx => {
     tx.executeSql(
       'SELECT * FROM productos;',
